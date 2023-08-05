@@ -1,0 +1,104 @@
+from tkinter import *
+def button_click(number):
+    current = display.get()
+    display.delete(0, END)
+    display.insert(END, current + str(number))
+def button_equal():
+    try:
+        result = eval(display.get())
+        display.delete(0, END)
+        display.insert(END, result)
+    except:
+        display.delete(0, END)
+        display.insert(END, "Error")
+def button_clear():
+    display.delete(0, END)
+window = Tk()
+window.title("Calculator")
+display = Entry(window, width=30)
+display.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+'
+]
+row_num = 1
+col_num = 0
+for button in buttons:
+    btn = Button(window, text=button, width=7, height=3, command=lambda b=button: button_click(b))
+    btn.grid(row=row_num, column=col_num, padx=5, pady=5)
+    col_num += 1
+    if col_num > 3:
+        col_num = 0
+        row_num += 1
+clear_btn = Button(window, text='C', width=7, height=3, command=button_clear)
+clear_btn.grid(row=row_num, column=col_num, padx=5, pady=5)
+def add():
+    try:
+        num1 = float(display.get())
+        display.delete(0, END)
+        display.insert(END, str(num1) + "+")
+        global math_operation
+        math_operation = "addition"
+    except ValueError:
+        display.delete(0, END)
+        display.insert(END, "Error")
+def subtract():
+    try:
+        num1 = float(display.get())
+        display.delete(0, END)
+        display.insert(END, str(num1) + "-")
+        global math_operation
+        math_operation = "subtraction"
+    except ValueError:
+        display.delete(0, END)
+        display.insert(END, "Error")
+def multiply():
+    try:
+        num1 = float(display.get())
+        display.delete(0, END)
+        display.insert(END, str(num1) + "*")
+        global math_operation
+        math_operation = "multiplication"
+    except ValueError:
+        display.delete(0, END)
+        display.insert(END, "Error")
+def divide():
+    try:
+        num1 = float(display.get())
+        display.delete(0, END)
+        display.insert(END, str(num1) + "/")
+        global math_operation
+        math_operation = "division"
+    except ValueError:
+        display.delete(0, END)
+        display.insert(END, "Error")
+add_btn = Button(window, text='+', width=7, height=3, command=add)
+add_btn.grid(row=1, column=4, padx=5, pady=5)
+subtract_btn = Button(window, text='-', width=7, height=3, command=subtract)
+subtract_btn.grid(row=2, column=4, padx=5, pady=5)
+multiply_btn = Button(window, text='*', width=7, height=3, command=multiply)
+multiply_btn.grid(row=3, column=4, padx=5, pady=5)
+divide_btn = Button(window, text='/', width=7, height=3, command=divide)
+divide_btn.grid(row=4, column=4, padx=5, pady=5)
+def button_equal():
+    try:
+        expression = display.get()
+        if math_operation == "addition":
+            expression = expression.replace("+", "+")
+        elif math_operation == "subtraction":
+            expression = expression.replace("-", "-")
+        elif math_operation == "multiplication":
+            expression = expression.replace("*", "*")
+        elif math_operation == "division":
+            expression = expression.replace("/", "/")
+        result = eval(expression)
+        display.delete(0, END)
+        display.insert(END, result)
+    except:
+        display.delete(0, END)
+        display.insert(END, "Error")
+equal_btn = Button(window, text='=', width=7, height=3, command=button_equal)
+equal_btn.grid(row=4, column=3, padx=5, pady=5)
+window.mainloop()
